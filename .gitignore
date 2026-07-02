@@ -8,6 +8,10 @@ venv/
 # Pipeline work output (extracted audio, chunks, transcripts, srt files)
 runs/
 
+# Internal Claude Code workspace docs — keep these private, publish only README.md
+*.md
+!README.md
+
 # Python
 __pycache__/
 *.pyc
