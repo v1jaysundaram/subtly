@@ -28,7 +28,7 @@ subtly turns any video or audio file into ready-to-use `.srt` subtitle files. It
 </p>
 
 <p align="center">
-  <a href="https://subtly.streamlit.app">🚀 Try the live app</a> &nbsp;·&nbsp;
+  <a href="http://subtly-ai.streamlit.app/">🚀 Try the live app</a> &nbsp;·&nbsp;
   <a href="https://youtu.be/your-video-id">▶️ Watch the detailed walkthrough on YouTube</a>
 </p>
 
@@ -83,10 +83,6 @@ Upload (video/audio)
       ▼
 7. Generate .srt        per-language downloads + "download all" zip
 ```
-
-Every intermediate output (extracted audio, each chunk, the raw transcript JSON, each `.srt`) is
-written to disk under `runs/<timestamp>/`, so any run is fully inspectable after the fact.
-
 ---
 
 ## Tech Stack

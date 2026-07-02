@@ -126,12 +126,15 @@ with st.sidebar:
 st.title("subtly.")
 st.caption("Upload a video or audio file and get clean, correctly-timed subtitle (.srt) files.")
 
-# A bumpable key lets the "Generate new subtitles" button fully clear the uploader.
-st.session_state.setdefault("uploader_key", 0)
+# One bumpable nonce keys EVERY input widget. "Generate new subtitles" increments it,
+# which makes all inputs brand-new widgets → they reset to their defaults reliably
+# (popping a widget's key alone doesn't clear it dependably in Streamlit).
+st.session_state.setdefault("form_nonce", 0)
+nonce = st.session_state["form_nonce"]
 uploaded = st.file_uploader(
     "Upload a video or audio file",
     type=["mp4", "mov", "mp3", "wav"],
-    key=f"uploader_{st.session_state['uploader_key']}",
+    key=f"uploader_{nonce}",
 )
 
 # When a NEW file arrives, save it once so ffmpeg has a real path to work from.
@@ -158,17 +161,17 @@ col1, col2 = st.columns(2)
 with col1:
     style_label = st.selectbox(
         "Caption style", list(CAPTION_STYLES.keys()),
-        index=DEFAULT_STYLE_INDEX, key="opt_style",
+        index=DEFAULT_STYLE_INDEX, key=f"opt_style_{nonce}",
     )
     style = CAPTION_STYLES[style_label]
 with col2:
-    include_original = st.checkbox("Original language", value=True, key="opt_original")
+    include_original = st.checkbox("Original language", value=True, key=f"opt_original_{nonce}")
 
 # If the user doesn't want the original language, a translation is required.
 translate_required = not include_original
 target_langs = st.multiselect(
     "Translate into" + (" (required)" if translate_required else ""),
-    p.LANGUAGES, key="opt_langs",
+    p.LANGUAGES, key=f"opt_langs_{nonce}",
 )
 if translate_required and not target_langs:
     st.info("Original language is off - pick at least one language to translate into.")
@@ -216,10 +219,9 @@ def clock(seconds: float) -> str:
 
 def reset_app():
     """Clear this run AND the user's selections, then start fresh."""
-    for k in ("results", "stats", "file_key", "upload_path",
-              "opt_style", "opt_original", "opt_langs"):
+    for k in ("results", "stats", "file_key", "upload_path"):
         st.session_state.pop(k, None)
-    st.session_state["uploader_key"] += 1  # bump = uploader clears too
+    st.session_state["form_nonce"] += 1  # new keys => every input resets to default
     st.rerun()
 
 
