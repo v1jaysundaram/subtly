@@ -1,0 +1,7 @@
+streamlit>=1.40
+openai>=1.60
+pydub>=0.25
+# pydub uses the stdlib `audioop`, which was removed in Python 3.13 (PEP 594).
+# audioop-lts restores it. Harmless on <3.13 (it only installs on 3.13+).
+audioop-lts; python_version >= "3.13"
+python-dotenv>=1.0

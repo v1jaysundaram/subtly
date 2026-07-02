@@ -1,0 +1,22 @@
+# Virtual environment
+.venv/
+venv/
+
+# Secrets — never commit the user's OpenAI key (Hard Rule 2)
+.env
+
+# Pipeline work output (extracted audio, chunks, transcripts, srt files)
+runs/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

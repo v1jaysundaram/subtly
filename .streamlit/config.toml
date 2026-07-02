@@ -1,0 +1,7 @@
+# Raise the upload cap so long videos can be uploaded (default is 200 MB).
+# Streamlit Community Cloud has its own resource limits too — see CONTEXT.md watch list.
+[server]
+maxUploadSize = 2000
+
+[browser]
+gatherUsageStats = false
