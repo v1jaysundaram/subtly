@@ -2,6 +2,8 @@
   <img src="assets/logo.png" alt="subtly Logo" width="120"/>
 </p>
 
+<h1 align="center"><b>subtly</b></h1>
+
 <p align="center">
   <a href="https://www.youtube.com/@vijai_sundaram"><img src="https://img.shields.io/badge/YouTube-Subscribe-red?style=flat&logo=youtube" alt="YouTube"/></a>
   <a href="https://www.linkedin.com/in/vijay-sundaram/"><img src="https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat&logo=linkedin" alt="LinkedIn"/></a>
@@ -13,12 +15,9 @@
 
 ---
 
-## Upload a video, get clean, perfectly-timed subtitles — in the original language or any of 10 others.
+## Upload a video, get clean, perfectly-timed subtitles - in the original language or any of 10 others.
 
-subtly turns any video or audio file into ready-to-use `.srt` subtitle files. It transcribes what's
-said with word-level timing, groups it into readable captions, and can translate the whole thing into
-ten common languages — no manual timing, no editing by hand. It's for creators, teachers, and anyone
-who needs correct captions without the busywork.
+subtly turns any video or audio file into ready-to-use `.srt` subtitle files. It transcribes what's said with word-level timing, groups it into readable captions, and can translate the whole thing into ten languages - no manual timing, no editing by hand. It's for creators, teachers, and anyone who needs correct captions without the busywork.
 
 ---
 
@@ -29,27 +28,35 @@ who needs correct captions without the busywork.
 </p>
 
 <p align="center">
-  <a href="https://youtu.be/your-video-id">▶️ Watch the full build on YouTube</a>
+  <a href="https://subtly.streamlit.app">🚀 Try the live app</a> &nbsp;·&nbsp;
+  <a href="https://youtu.be/your-video-id">▶️ Watch the detailed walkthrough on YouTube</a>
 </p>
+
+---
+
+## Why I Built This
+
+Honestly, I just wanted to vibe code somehting - I wanted to see whether I could get the whole thing built end-to-end, from a raw upload to finished, correctly-timed subtitles.
+Timing captions by hand is tedious, so it was a genuinely satisfying problem to actually solve.
+
+Plus, most subtitle apps out there are so bloated - fonts, styles, editors, endless options. I just wanted something dead simple: you upload, you pick a language, you get your subtitles. Nothing else.
 
 ---
 
 ## Features
 
-- **Word-level transcription** — Whisper returns the exact start/end time of every word, with the spoken language auto-detected.
-- **Three caption styles from one transcript** — word-by-word (TikTok-style), phrase, or full sentence, all re-rendered from the same timing data at no extra cost.
-- **Translation into 10 languages, concurrently** — each language is a single batched GPT call, and all selected languages run in parallel so the wait stays close to one call.
-- **Silence-aware chunking** — long files are split at natural pauses to stay under Whisper's size limit, with a fixed-time fallback when there's no silence to cut on.
-- **Real sentence breaks** — captions split at actual sentence endings using Whisper's segment data, not just at a word count.
-- **Bring your own key** — you enter your own OpenAI API key at runtime; it's never written to disk, a database, or logs.
-- **Flexible downloads** — grab a `.srt` per language, or download everything at once as a `.zip`.
+- **Preview your upload** - see your video or audio right in the app before you start.
+- **3 caption styles** - pick word-by-word, phrase, or full sentence.
+- **Automatic language detection** - no need to tell it what's being spoken; it figures it out.
+- **Translate into 10 languages** - choose as many as you want.
+- **Preview before you download** - peek at a snippet of your subtitles to check they look right.
+- **One-click downloads** - grab each language on its own, or all of them together as a `.zip`.
 
 ---
 
 ## Architecture
 
-subtly is a straight-line pipeline. The **single word-level timestamp transcript is the load-bearing
-asset** — every caption style and every translated language is just a re-grouping or re-render of that
+subtly is a straight-line pipeline. The **single word-level timestamp transcript is the load-bearing asset** - every caption style and every translated language is just a re-grouping or re-render of that
 one dataset, so the timing only has to be right once.
 
 ```
@@ -86,7 +93,7 @@ written to disk under `runs/<timestamp>/`, so any run is fully inspectable after
 
 | Tool | Purpose |
 |------|---------|
-| Streamlit | The UI and the app server — the whole frontend in Python |
+| Streamlit | The UI and the app server - the whole frontend in Python |
 | OpenAI Whisper API (`whisper-1`) | Transcription with word + segment timestamps and language auto-detection |
 | OpenAI GPT (`gpt-4o-mini`) | Batched, context-aware translation |
 | ffmpeg | Extracts the audio track from the upload (system-level dependency) |
@@ -100,16 +107,11 @@ written to disk under `runs/<timestamp>/`, so any run is fully inspectable after
 ```
 subtly/
 ├── app.py             # Streamlit UI + pipeline orchestration
-├── pipeline.py        # The core — one single-responsibility function per step
+├── pipeline.py        # The core - one single-responsibility function per step
 ├── requirements.txt   # Python dependencies
 ├── packages.txt       # System dependency (ffmpeg) for Streamlit Community Cloud
-├── .streamlit/
-│   └── config.toml    # Upload size limit and app config
-├── assets/
-│   └── logo.png
-├── CLAUDE.md          # Project identity and rules (Claude Code workspace)
-├── CONTEXT.md         # Live build status
-└── handoff.md         # Original product spec
+└── .streamlit/
+    └── config.toml    # Upload size limit and app config
 ```
 
 ---
@@ -117,7 +119,7 @@ subtly/
 ## Getting Started
 
 **Prerequisites**
-- Python 3.10+ (works through 3.13 — `audioop-lts` is included for it)
+- Python 3.10+ (works through 3.13 - `audioop-lts` is included for it)
 - ffmpeg installed system-wide (`brew install ffmpeg` · `sudo apt install ffmpeg` · `choco install ffmpeg`)
 - An OpenAI API key
 
@@ -133,8 +135,7 @@ pip install -r requirements.txt
 
 **Configure**
 
-No config file is required — you paste your OpenAI API key into the app's sidebar at runtime, and it
-lives only in that session. For local convenience you can optionally create a `.env` to pre-fill it:
+No config file is required - you paste your OpenAI API key into the app's sidebar at runtime, and it lives only in that session. For local convenience you can optionally create a `.env` to pre-fill it:
 ```bash
 echo "OPENAI_API_KEY=sk-..." > .env
 ```
@@ -143,14 +144,6 @@ echo "OPENAI_API_KEY=sk-..." > .env
 ```bash
 streamlit run app.py
 ```
-
----
-
-## Why I Built This
-
-Honestly, mostly to see if I could build the whole thing end-to-end myself — from a raw upload all the
-way to finished, correctly-timed subtitles. Timing captions by hand is tedious, so it was a genuinely
-satisfying problem to actually solve rather than just read about.
 
 ---
 
