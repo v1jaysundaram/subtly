@@ -29,7 +29,7 @@ subtly turns any video or audio file into ready-to-use `.srt` subtitle files. It
 
 <p align="center">
   <a href="http://subtly-ai.streamlit.app/">🚀 Try the live app</a> &nbsp;·&nbsp;
-  <a href="https://youtu.be/your-video-id">▶️ Watch the detailed walkthrough on YouTube</a>
+  <a href="https://youtu.be/NySKpDXzuC8">▶️ Watch the detailed walkthrough on YouTube</a>
 </p>
 
 ---
